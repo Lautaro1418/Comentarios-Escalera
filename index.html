@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comentarios WO — Programa de Producción</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:         #f4f1ec;
+      --surface:    #ffffff;
+      --border:     #ddd9d0;
+      --border-hi:  #b8b2a7;
+      --accent:     #1a5c3a;
+      --accent-lt:  #eaf3ee;
+      --accent-txt: #1a5c3a;
+      --text:       #1c1a17;
+      --muted:      #8a8278;
+      --success-bg: #eaf3ee;
+      --success-tx: #1a5c3a;
+      --success-bd: #a3ccb3;
+      --error-bg:   #fcecea;
+      --error-tx:   #8b2020;
+      --error-bd:   #e8a8a8;
+      --warn-bg:    #fdf6e3;
+      --warn-tx:    #7a5c10;
+      --warn-bd:    #e8d090;
+      --font-ui:    'DM Sans', sans-serif;
+      --font-mono:  'DM Mono', monospace;
+      --radius:     6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-ui);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 460px;
+      animation: fadeUp 0.4s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* header */
+    .header { margin-bottom: 1.75rem; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .brand-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .brand-name {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 300;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+    h1 strong { font-weight: 500; }
+
+    /* card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    /* fields */
+    .field + .field { margin-top: 1.1rem; }
+
+    label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      padding: 9px 11px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      -webkit-appearance: none;
+    }
+    input[type="text"]:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(26,92,58,0.1);
+    }
+    input[type="text"]::placeholder,
+    textarea::placeholder {
+      color: var(--border-hi);
+      font-size: 13px;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 96px;
+    }
+
+    /* divider */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.25rem 0;
+    }
+
+    /* button */
+    .btn {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 11px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      letter-spacing: 0.01em;
+    }
+    .btn:hover  {
+      background: #164f32;
+      box-shadow: 0 2px 8px rgba(26,92,58,0.25);
+    }
+    .btn:active { transform: scale(0.99); }
+    .btn:disabled {
+      background: #8ab5a0;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* spinner */
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    .btn.loading .spinner  { display: block; }
+    .btn.loading .btn-text { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* status */
+    .status {
+      display: none;
+      margin-top: 10px;
+      padding: 9px 12px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      border: 1px solid;
+    }
+    .status.success { background: var(--success-bg); color: var(--success-tx); border-color: var(--success-bd); }
+    .status.error   { background: var(--error-bg);   color: var(--error-tx);   border-color: var(--error-bd); }
+    .status.warning { background: var(--warn-bg);    color: var(--warn-tx);    border-color: var(--warn-bd); }
+
+    /* hint */
+    .hint {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* log */
+    .log {
+      margin-top: 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .log-header {
+      padding: 7px 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .log-body { max-height: 130px; overflow-y: auto; }
+    .log-entry {
+      padding: 6px 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+    }
+    .log-entry:last-child { border-bottom: none; }
+    .log-entry .time  { color: var(--border-hi); flex-shrink: 0; }
+    .log-entry.ok  .wo-tag { color: var(--success-tx); font-weight: 500; }
+    .log-entry.err .wo-tag { color: var(--error-tx); font-weight: 500; }
+    .log-empty {
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--border-hi);
+      text-align: center;
+    }
+
+    /* footer */
+    .footer {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--border-hi);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header class="header">
+    <div class="brand">
+      <div class="brand-dot"></div>
+      <span class="brand-name">Grupo Peñaflor · Producción</span>
+    </div>
+    <h1>Agregar <strong>comentario</strong><br>a orden de trabajo</h1>
+  </header>
+
+  <div class="card">
+    <div class="field">
+      <label for="wo-input">Número de WO</label>
+      <input type="text" id="wo-input" placeholder="Ej: 1234567" autocomplete="off" />
+    </div>
+
+    <div class="field">
+      <label for="comentario-input">Comentario</label>
+      <textarea id="comentario-input" placeholder="Escribí el comentario a agregar..."></textarea>
+    </div>
+
+    <hr class="divider" />
+
+    <button class="btn" id="send-btn" onclick="enviarComentario()">
+      <span class="btn-text">Enviar comentario</span>
+      <div class="spinner"></div>
+    </button>
+
+    <div class="status" id="status-msg"></div>
+  </div>
+
+  <p class="hint">Se agrega a la fila más reciente · Si ya hay comentario se concatena con " / " · Ctrl+Enter para enviar</p>
+
+  <div class="log">
+    <div class="log-header">Log de envíos — sesión actual</div>
+    <div class="log-body" id="log-body">
+      <div class="log-empty" id="log-empty">Sin envíos aún.</div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span>Programa de Producción</span>
+    <span id="current-time"></span>
+  </footer>
+
+</div>
+
+<script>
+  // ─── CONFIGURACIÓN ────────────────────────────────────────────────
+  const POWER_AUTOMATE_URL = "PEGAR_URL_DEL_HTTP_TRIGGER_AQUI";
+  // ─────────────────────────────────────────────────────────────────
+
+  function tick() {
+    document.getElementById("current-time").textContent =
+      new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  async function enviarComentario() {
+    const wo         = document.getElementById("wo-input").value.trim();
+    const comentario = document.getElementById("comentario-input").value.trim();
+    const btn        = document.getElementById("send-btn");
+
+    if (!wo) { mostrarStatus("Completá el número de WO.", "warning"); return; }
+    if (!comentario) { mostrarStatus("Escribí el comentario antes de enviar.", "warning"); return; }
+    if (POWER_AUTOMATE_URL === "PEGAR_URL_DEL_HTTP_TRIGGER_AQUI") {
+      mostrarStatus("Configurá la URL del trigger en index.html antes de usar.", "warning"); return;
+    }
+
+    btn.disabled = true;
+    btn.classList.add("loading");
+
+    try {
+      const res = await fetch(POWER_AUTOMATE_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ wo, comentario })
+      });
+
+      if (res.ok) {
+        mostrarStatus(`Comentario enviado correctamente a WO ${wo}.`, "success");
+        agregarLog(wo, comentario, true);
+        document.getElementById("wo-input").value = "";
+        document.getElementById("comentario-input").value = "";
+      } else {
+        mostrarStatus(`Error ${res.status} al enviar. Verificá el flujo en Power Automate.`, "error");
+        agregarLog(wo, comentario, false);
+      }
+    } catch (e) {
+      mostrarStatus("No se pudo conectar con Power Automate. Revisá la URL.", "error");
+      agregarLog(wo, comentario, false);
+    }
+
+    btn.disabled = false;
+    btn.classList.remove("loading");
+  }
+
+  function mostrarStatus(texto, tipo) {
+    const el = document.getElementById("status-msg");
+    el.className = "status " + tipo;
+    el.style.display = "block";
+    el.textContent = texto;
+  }
+
+  function agregarLog(wo, comentario, ok) {
+    const time = new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    const body  = document.getElementById("log-body");
+    const empty = document.getElementById("log-empty");
+    if (empty) empty.remove();
+
+    const entry = document.createElement("div");
+    entry.className = "log-entry " + (ok ? "ok" : "err");
+    entry.innerHTML =
+      `<span class="time">${time}</span>` +
+      `<span class="wo-tag">WO ${wo}</span>` +
+      `<span>${comentario.length > 38 ? comentario.slice(0, 38) + "…" : comentario}</span>`;
+    body.prepend(entry);
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") enviarComentario();
+  });
+</script>
+</body>
+</html>
