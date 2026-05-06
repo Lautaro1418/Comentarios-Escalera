@@ -292,15 +292,6 @@
         <span style="font-size:16px;line-height:1">+</span> Agregar fila
       </button>
 
-      <hr class="divider" />
-
-      <button class="btn-send" id="send-ind" onclick="enviarIndividual()">
-        <span class="btn-text">Enviar <span id="ind-count-label">1 comentario</span></span>
-        <div class="spinner"></div>
-      </button>
-
-      <div class="status" id="status-ind"></div>
-      <p class="hint">Ctrl+Enter para enviar</p>
     </div>
 
     <!-- ═══════════════════════════════════════════
@@ -322,18 +313,19 @@
         <textarea id="batch-comentario" placeholder="Este comentario se cargará en cada orden listada..."></textarea>
       </div>
 
-      <hr class="divider" />
-
-      <button class="btn-send" id="send-batch" onclick="enviarBatch()">
-        <span class="btn-text">Enviar a <span id="batch-count-label">1 orden</span></span>
-        <div class="spinner"></div>
-      </button>
-
-      <div class="status" id="status-batch"></div>
-      <p class="hint">Ctrl+Shift+Enter para enviar</p>
     </div>
 
   </div><!-- /panels -->
+
+  <!-- botón único de envío -->
+  <div style="margin-top:1.25rem;">
+    <button class="btn-send" id="send-all" onclick="enviarTodo()">
+      <span class="btn-text">Enviar todo <span id="total-count-label"></span></span>
+      <div class="spinner"></div>
+    </button>
+    <div class="status" id="status-all"></div>
+    <p class="hint">Combina ambos paneles en un solo envío · Ctrl+Enter para enviar</p>
+  </div>
 
   <!-- log unificado -->
   <div class="log">
@@ -407,26 +399,17 @@
     actualizarContadorInd();
   }
 
-  function actualizarContadorInd() {
-    const count = document.getElementById("individual-list").children.length;
-    document.getElementById("ind-count-label").textContent =
-      count === 1 ? "1 comentario" : `${count} comentarios`;
-  }
+  function actualizarContadorInd() { actualizarContadorTotal(); }
 
-  async function enviarIndividual() {
+  function recogerItemsIndividual() {
     const rows  = document.querySelectorAll("#individual-list .row-item");
     const items = [];
-
     for (const row of rows) {
       const wo  = row.querySelector('[data-type="wo"]').value.trim();
       const com = row.querySelector('[data-type="com"]').value.trim();
       if (wo || com) items.push({ wo, comentario: com });
     }
-
-    const err = validarItems(items);
-    if (err) { mostrarStatus("status-ind", err, "warning"); return; }
-
-    await enviar("send-ind", "status-ind", items);
+    return items;
   }
 
   // ══════════════════════════════════════════════════════════════════════════
@@ -459,27 +442,46 @@
     actualizarContadorBatch();
   }
 
-  function actualizarContadorBatch() {
-    const count = document.getElementById("batch-wo-list").children.length;
-    document.getElementById("batch-count-label").textContent =
-      count === 1 ? "1 orden" : `${count} órdenes`;
-  }
+  function actualizarContadorBatch() { actualizarContadorTotal(); }
 
-  async function enviarBatch() {
+  function recogerItemsBatch() {
     const comentario = document.getElementById("batch-comentario").value.trim();
-    if (!comentario) { mostrarStatus("status-batch", "Escribí el comentario antes de enviar.", "warning"); return; }
-
-    const rows = document.querySelectorAll("#batch-wo-list .wo-item");
+    if (!comentario) return [];
+    const rows  = document.querySelectorAll("#batch-wo-list .wo-item");
     const items = [];
     for (const row of rows) {
       const wo = row.querySelector("input").value.trim();
       if (wo) items.push({ wo, comentario });
     }
+    return items;
+  }
+
+  function actualizarContadorTotal() {
+    const ind   = recogerItemsIndividual().filter(i => i.wo && i.comentario).length;
+    const batch = recogerItemsBatch().length;
+    const total = ind + batch;
+    document.getElementById("total-count-label").textContent =
+      total === 0 ? "" : `(${total} ${total === 1 ? "comentario" : "comentarios"})`;
+  }
+
+  async function enviarTodo() {
+    const itemsInd   = recogerItemsIndividual();
+    const itemsBatch = recogerItemsBatch();
+    const items      = [...itemsInd, ...itemsBatch];
+
+    const batchComentario = document.getElementById("batch-comentario").value.trim();
+    const batchTieneWOs   = document.querySelectorAll("#batch-wo-list .wo-item input");
+    const hayWOsBatch     = [...batchTieneWOs].some(i => i.value.trim());
+
+    if (hayWOsBatch && !batchComentario) {
+      mostrarStatus("status-all", "El panel derecho tiene órdenes pero le falta el comentario.", "warning");
+      return;
+    }
 
     const err = validarItems(items);
-    if (err) { mostrarStatus("status-batch", err, "warning"); return; }
+    if (err) { mostrarStatus("status-all", err, "warning"); return; }
 
-    await enviar("send-batch", "status-batch", items);
+    await enviar("send-all", "status-all", items);
   }
 
   // ══════════════════════════════════════════════════════════════════════════
@@ -555,13 +557,13 @@
 
   // ── Teclado ───────────────────────────────────────────────────────────────
   document.addEventListener("keydown", (e) => {
-    if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === "Enter") enviarIndividual();
-    if ((e.ctrlKey || e.metaKey) &&  e.shiftKey && e.key === "Enter") enviarBatch();
+    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") enviarTodo();
   });
 
-  // ── Inicialización: una fila vacía en cada panel ──────────────────────────
+  // ── Inicialización ────────────────────────────────────────────────────────
   agregarFilaIndividual();
   agregarFilaBatch();
+  actualizarContadorTotal();
 </script>
 </body>
 </html>
