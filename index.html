@@ -40,14 +40,12 @@
       font-size: 15px;
       line-height: 1.6;
       min-height: 100dvh;
-      display: grid;
-      place-items: center;
-      padding: 2rem 1rem;
+      padding: 2rem 1.5rem;
     }
 
-    .container {
-      width: 100%;
-      max-width: 460px;
+    .page-wrap {
+      max-width: 1180px;
+      margin: 0 auto;
       animation: fadeUp 0.4s ease both;
     }
     @keyframes fadeUp {
@@ -57,248 +55,287 @@
 
     /* header */
     .header { margin-bottom: 1.75rem; }
-
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
     }
-    .brand-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-    }
+    .brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
     .brand-name {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
+      font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
     }
-
-    h1 {
-      font-size: 24px;
-      font-weight: 300;
-      color: var(--text);
-      letter-spacing: -0.02em;
-      line-height: 1.3;
-    }
+    h1 { font-size: 24px; font-weight: 300; letter-spacing: -0.02em; line-height: 1.3; }
     h1 strong { font-weight: 500; }
+
+    /* two-column layout */
+    .panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+    @media (max-width: 780px) { .panels { grid-template-columns: 1fr; } }
 
     /* card */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1.5rem;
+      padding: 1.25rem 1.5rem 1.5rem;
       box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
-
-    /* fields */
-    .field + .field { margin-top: 1.1rem; }
-
-    label {
-      display: block;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 5px;
+    .card-title {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .card-heading {
+      font-size: 16px; font-weight: 500; margin-bottom: 1rem;
+    }
+    .card-desc {
+      font-size: 12px; color: var(--muted); margin-bottom: 1rem; line-height: 1.5;
     }
 
-    input[type="text"],
-    textarea {
+    /* column headers for left panel */
+    .row-header {
+      display: grid;
+      grid-template-columns: 130px 1fr 28px;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .row-header span {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+    }
+
+    /* individual rows */
+    .rows-list { display: flex; flex-direction: column; gap: 6px; }
+
+    .row-item {
+      display: grid;
+      grid-template-columns: 130px 1fr 28px;
+      gap: 6px;
+      align-items: center;
+    }
+
+    /* right panel order list */
+    .wo-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+    .wo-item { display: grid; grid-template-columns: 1fr 28px; gap: 6px; align-items: center; }
+
+    /* inputs */
+    input[type="text"], textarea {
       width: 100%;
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       color: var(--text);
       font-family: var(--font-mono);
-      font-size: 14px;
-      padding: 9px 11px;
+      font-size: 13px;
+      padding: 7px 9px;
       outline: none;
       transition: border-color 0.15s, box-shadow 0.15s;
       -webkit-appearance: none;
     }
-    input[type="text"]:focus,
-    textarea:focus {
+    input[type="text"]:focus, textarea:focus {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(26,92,58,0.1);
     }
-    input[type="text"]::placeholder,
-    textarea::placeholder {
-      color: var(--border-hi);
-      font-size: 13px;
+    input[type="text"]::placeholder, textarea::placeholder {
+      color: var(--border-hi); font-size: 12px;
     }
-    textarea {
-      resize: vertical;
-      min-height: 96px;
-    }
+    textarea { resize: vertical; min-height: 90px; }
 
-    /* divider */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 1.25rem 0;
+    label.field-label {
+      display: block;
+      font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+      margin-bottom: 5px;
     }
+    .field { margin-bottom: 1rem; }
 
-    /* button */
-    .btn {
-      width: 100%;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: var(--radius);
-      font-family: var(--font-ui);
-      font-size: 14px;
-      font-weight: 500;
-      padding: 11px;
-      cursor: pointer;
+    /* remove button */
+    .btn-remove {
+      width: 28px; height: 28px; flex-shrink: 0;
+      background: none; border: 1px solid var(--border); border-radius: var(--radius);
+      color: var(--border-hi); font-size: 16px; line-height: 1;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .btn-remove:hover { border-color: var(--error-bd); color: var(--error-tx); background: var(--error-bg); }
+
+    /* add row button */
+    .btn-add {
+      margin-top: 8px;
+      width: 100%; background: none;
+      border: 1px dashed var(--border); border-radius: var(--radius);
+      color: var(--muted); font-family: var(--font-ui); font-size: 13px;
+      padding: 7px; cursor: pointer; transition: border-color 0.15s, color 0.15s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-add:hover { border-color: var(--accent); color: var(--accent-txt); }
+
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+
+    /* send button */
+    .btn-send {
+      width: 100%; background: var(--accent); color: #fff; border: none;
+      border-radius: var(--radius); font-family: var(--font-ui); font-size: 14px;
+      font-weight: 500; padding: 11px; cursor: pointer;
       transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      letter-spacing: 0.01em;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-    .btn:hover  {
-      background: #164f32;
-      box-shadow: 0 2px 8px rgba(26,92,58,0.25);
-    }
-    .btn:active { transform: scale(0.99); }
-    .btn:disabled {
-      background: #8ab5a0;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
+    .btn-send:hover { background: #164f32; box-shadow: 0 2px 8px rgba(26,92,58,0.25); }
+    .btn-send:active { transform: scale(0.99); }
+    .btn-send:disabled { background: #8ab5a0; cursor: not-allowed; transform: none; box-shadow: none; }
 
     /* spinner */
     .spinner {
       width: 14px; height: 14px;
-      border: 2px solid rgba(255,255,255,0.4);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      display: none;
+      border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;
+      border-radius: 50%; animation: spin 0.7s linear infinite; display: none;
     }
-    .btn.loading .spinner  { display: block; }
-    .btn.loading .btn-text { display: none; }
+    .btn-send.loading .spinner  { display: block; }
+    .btn-send.loading .btn-text { display: none; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* status */
     .status {
-      display: none;
-      margin-top: 10px;
-      padding: 9px 12px;
-      border-radius: var(--radius);
-      font-size: 13px;
-      border: 1px solid;
+      display: none; margin-top: 10px; padding: 9px 12px;
+      border-radius: var(--radius); font-size: 13px; border: 1px solid;
     }
     .status.success { background: var(--success-bg); color: var(--success-tx); border-color: var(--success-bd); }
     .status.error   { background: var(--error-bg);   color: var(--error-tx);   border-color: var(--error-bd); }
     .status.warning { background: var(--warn-bg);    color: var(--warn-tx);    border-color: var(--warn-bd); }
 
     /* hint */
-    .hint {
-      margin-top: 8px;
-      font-size: 11px;
-      color: var(--muted);
-      text-align: center;
+    .hint { margin-top: 8px; font-size: 11px; color: var(--muted); text-align: center; }
+
+    /* badge count */
+    .count-badge {
+      display: inline-block; background: var(--accent-lt); color: var(--accent-txt);
+      font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+      border-radius: 4px; padding: 1px 6px; margin-left: 6px;
     }
 
     /* log */
     .log {
-      margin-top: 1.25rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
+      margin-top: 1.25rem; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
     }
     .log-header {
-      padding: 7px 12px;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
+      padding: 7px 12px; font-family: var(--font-mono); font-size: 10px;
+      font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); background: var(--bg); border-bottom: 1px solid var(--border);
     }
-    .log-body { max-height: 130px; overflow-y: auto; }
+    .log-body { max-height: 150px; overflow-y: auto; }
     .log-entry {
-      padding: 6px 12px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--muted);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      gap: 10px;
-      align-items: baseline;
+      padding: 5px 12px; font-family: var(--font-mono); font-size: 11px;
+      color: var(--muted); border-bottom: 1px solid var(--border);
+      display: flex; gap: 10px; align-items: baseline;
     }
     .log-entry:last-child { border-bottom: none; }
     .log-entry .time  { color: var(--border-hi); flex-shrink: 0; }
     .log-entry.ok  .wo-tag { color: var(--success-tx); font-weight: 500; }
     .log-entry.err .wo-tag { color: var(--error-tx); font-weight: 500; }
     .log-empty {
-      padding: 12px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--border-hi);
-      text-align: center;
+      padding: 12px; font-family: var(--font-mono); font-size: 11px;
+      color: var(--border-hi); text-align: center;
     }
 
     /* footer */
     .footer {
-      margin-top: 10px;
-      display: flex;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--border-hi);
+      margin-top: 10px; display: flex; justify-content: space-between;
+      font-family: var(--font-mono); font-size: 10px; color: var(--border-hi);
     }
+
+    /* panel label pill */
+    .panel-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 20px; padding: 3px 10px; margin-bottom: 12px;
+      font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+    }
+    .pill-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .pill-dot.left-dot  { background: #4a90d9; }
+    .pill-dot.right-dot { background: #e8a030; }
   </style>
 </head>
 <body>
-<div class="container">
+<div class="page-wrap">
 
   <header class="header">
     <div class="brand">
       <div class="brand-dot"></div>
       <span class="brand-name">Grupo Peñaflor · Producción</span>
     </div>
-    <h1>Agregar <strong>comentario</strong><br>a orden de trabajo</h1>
+    <h1>Agregar <strong>comentarios</strong> a órdenes de trabajo</h1>
   </header>
 
-  <div class="card">
-    <div class="field">
-      <label for="wo-input">Número de WO</label>
-      <input type="text" id="wo-input" placeholder="Ej: 1234567" autocomplete="off" />
+  <div class="panels">
+
+    <!-- ═══════════════════════════════════════════
+         PANEL IZQUIERDO — comentarios individuales
+    ═══════════════════════════════════════════ -->
+    <div class="card">
+      <div class="panel-pill"><span class="pill-dot left-dot"></span>Comentarios individuales</div>
+      <div class="card-desc">Cada orden tiene su propio comentario. Agregá tantas filas como necesites.</div>
+
+      <div class="row-header">
+        <span>Orden (WO)</span>
+        <span>Comentario</span>
+        <span></span>
+      </div>
+
+      <div class="rows-list" id="individual-list"></div>
+
+      <button class="btn-add" onclick="agregarFilaIndividual()">
+        <span style="font-size:16px;line-height:1">+</span> Agregar fila
+      </button>
+
+      <hr class="divider" />
+
+      <button class="btn-send" id="send-ind" onclick="enviarIndividual()">
+        <span class="btn-text">Enviar <span id="ind-count-label">1 comentario</span></span>
+        <div class="spinner"></div>
+      </button>
+
+      <div class="status" id="status-ind"></div>
+      <p class="hint">Ctrl+Enter para enviar</p>
     </div>
 
-    <div class="field">
-      <label for="comentario-input">Comentario</label>
-      <textarea id="comentario-input" placeholder="Escribí el comentario a agregar..."></textarea>
+    <!-- ═══════════════════════════════════════════
+         PANEL DERECHO — mismo comentario para varias órdenes
+    ═══════════════════════════════════════════ -->
+    <div class="card">
+      <div class="panel-pill"><span class="pill-dot right-dot"></span>Mismo comentario · múltiples órdenes</div>
+      <div class="card-desc">Escribí un comentario y se cargará en todas las órdenes listadas.</div>
+
+      <label class="field-label">Órdenes (WO)</label>
+      <div class="wo-list" id="batch-wo-list"></div>
+
+      <button class="btn-add" onclick="agregarFilaBatch()">
+        <span style="font-size:16px;line-height:1">+</span> Agregar orden
+      </button>
+
+      <div class="field" style="margin-top:1rem">
+        <label class="field-label" for="batch-comentario">Comentario para todas</label>
+        <textarea id="batch-comentario" placeholder="Este comentario se cargará en cada orden listada..."></textarea>
+      </div>
+
+      <hr class="divider" />
+
+      <button class="btn-send" id="send-batch" onclick="enviarBatch()">
+        <span class="btn-text">Enviar a <span id="batch-count-label">1 orden</span></span>
+        <div class="spinner"></div>
+      </button>
+
+      <div class="status" id="status-batch"></div>
+      <p class="hint">Ctrl+Shift+Enter para enviar</p>
     </div>
 
-    <hr class="divider" />
+  </div><!-- /panels -->
 
-    <button class="btn" id="send-btn" onclick="enviarComentario()">
-      <span class="btn-text">Enviar comentario</span>
-      <div class="spinner"></div>
-    </button>
-
-    <div class="status" id="status-msg"></div>
-  </div>
-
-  <p class="hint">Se agrega a la fila más reciente · Si ya hay comentario se concatena con " / " · Ctrl+Enter para enviar</p>
-
+  <!-- log unificado -->
   <div class="log">
     <div class="log-header">Log de envíos — sesión actual</div>
     <div class="log-body" id="log-body">
@@ -311,13 +348,27 @@
     <span id="current-time"></span>
   </footer>
 
-</div>
+</div><!-- /page-wrap -->
 
 <script>
-  // ─── CONFIGURACIÓN ────────────────────────────────────────────────
+  // ─── CONFIGURACIÓN ────────────────────────────────────────────────────────
   const POWER_AUTOMATE_URL = "https://defaultd83e43d1620044fbb4f6a908d91c2e.22.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/c19ddcb183844e3e8522a4d8a5c19b10/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=i1RKWlaQG-wRcgw4xrxcd_z49KO_XD8H0N0cHaGgibo";
-  // ─────────────────────────────────────────────────────────────────
 
+  /*
+   * JSON enviado a Power Automate (ambos paneles usan el mismo formato):
+   * {
+   *   "items": [
+   *     { "wo": "1234567", "comentario": "texto" },
+   *     { "wo": "7654321", "comentario": "otro texto" }
+   *   ]
+   * }
+   *
+   * En Power Automate: usar acción "Apply to each" sobre body('Parse_JSON')?['items']
+   * y dentro de cada iteración ejecutar la lógica de carga de comentario.
+   */
+  // ─────────────────────────────────────────────────────────────────────────
+
+  // ── Reloj ─────────────────────────────────────────────────────────────────
   function tick() {
     document.getElementById("current-time").textContent =
       new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
@@ -325,17 +376,131 @@
   tick();
   setInterval(tick, 1000);
 
-  async function enviarComentario() {
-    const wo         = document.getElementById("wo-input").value.trim();
-    const comentario = document.getElementById("comentario-input").value.trim();
-    const btn        = document.getElementById("send-btn");
+  // ══════════════════════════════════════════════════════════════════════════
+  //  PANEL IZQUIERDO — Filas individuales
+  // ══════════════════════════════════════════════════════════════════════════
+  let indId = 0;
 
-    if (!wo) { mostrarStatus("Completá el número de WO.", "warning"); return; }
-    if (!comentario) { mostrarStatus("Escribí el comentario antes de enviar.", "warning"); return; }
-    if (POWER_AUTOMATE_URL === "PEGAR_URL_DEL_HTTP_TRIGGER_AQUI") {
-      mostrarStatus("Configurá la URL del trigger en index.html antes de usar.", "warning"); return;
+  function agregarFilaIndividual(wo = "", comentario = "") {
+    const id   = ++indId;
+    const list = document.getElementById("individual-list");
+
+    const div = document.createElement("div");
+    div.className = "row-item";
+    div.dataset.id = id;
+    div.innerHTML =
+      `<input type="text" placeholder="Ej: 1234567" value="${wo}" data-type="wo"
+              oninput="actualizarContadorInd()" />` +
+      `<input type="text" placeholder="Comentario..." value="${comentario}" data-type="com" />` +
+      `<button class="btn-remove" onclick="quitarFilaIndividual(${id})" title="Eliminar fila">×</button>`;
+
+    list.appendChild(div);
+    actualizarContadorInd();
+    div.querySelector('[data-type="wo"]').focus();
+  }
+
+  function quitarFilaIndividual(id) {
+    const list = document.getElementById("individual-list");
+    const item = list.querySelector(`[data-id="${id}"]`);
+    if (item) item.remove();
+    if (list.children.length === 0) agregarFilaIndividual();
+    actualizarContadorInd();
+  }
+
+  function actualizarContadorInd() {
+    const count = document.getElementById("individual-list").children.length;
+    document.getElementById("ind-count-label").textContent =
+      count === 1 ? "1 comentario" : `${count} comentarios`;
+  }
+
+  async function enviarIndividual() {
+    const rows  = document.querySelectorAll("#individual-list .row-item");
+    const items = [];
+
+    for (const row of rows) {
+      const wo  = row.querySelector('[data-type="wo"]').value.trim();
+      const com = row.querySelector('[data-type="com"]').value.trim();
+      if (wo || com) items.push({ wo, comentario: com });
     }
 
+    const err = validarItems(items);
+    if (err) { mostrarStatus("status-ind", err, "warning"); return; }
+
+    await enviar("send-ind", "status-ind", items);
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  //  PANEL DERECHO — Mismos comentario para múltiples órdenes
+  // ══════════════════════════════════════════════════════════════════════════
+  let batchId = 0;
+
+  function agregarFilaBatch(wo = "") {
+    const id   = ++batchId;
+    const list = document.getElementById("batch-wo-list");
+
+    const div = document.createElement("div");
+    div.className = "wo-item";
+    div.dataset.id = id;
+    div.innerHTML =
+      `<input type="text" placeholder="Ej: 1234567" value="${wo}"
+              oninput="actualizarContadorBatch()" />` +
+      `<button class="btn-remove" onclick="quitarFilaBatch(${id})" title="Eliminar orden">×</button>`;
+
+    list.appendChild(div);
+    actualizarContadorBatch();
+    div.querySelector("input").focus();
+  }
+
+  function quitarFilaBatch(id) {
+    const list = document.getElementById("batch-wo-list");
+    const item = list.querySelector(`[data-id="${id}"]`);
+    if (item) item.remove();
+    if (list.children.length === 0) agregarFilaBatch();
+    actualizarContadorBatch();
+  }
+
+  function actualizarContadorBatch() {
+    const count = document.getElementById("batch-wo-list").children.length;
+    document.getElementById("batch-count-label").textContent =
+      count === 1 ? "1 orden" : `${count} órdenes`;
+  }
+
+  async function enviarBatch() {
+    const comentario = document.getElementById("batch-comentario").value.trim();
+    if (!comentario) { mostrarStatus("status-batch", "Escribí el comentario antes de enviar.", "warning"); return; }
+
+    const rows = document.querySelectorAll("#batch-wo-list .wo-item");
+    const items = [];
+    for (const row of rows) {
+      const wo = row.querySelector("input").value.trim();
+      if (wo) items.push({ wo, comentario });
+    }
+
+    const err = validarItems(items);
+    if (err) { mostrarStatus("status-batch", err, "warning"); return; }
+
+    await enviar("send-batch", "status-batch", items);
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  //  Envío genérico
+  // ══════════════════════════════════════════════════════════════════════════
+  function validarItems(items) {
+    if (!items.length) return "No hay filas completas para enviar.";
+    for (const it of items) {
+      if (!it.wo)         return `Falta número de WO en alguna fila.`;
+      if (!it.comentario) return `Falta comentario para la WO ${it.wo}.`;
+    }
+    return null;
+  }
+
+  async function enviar(btnId, statusId, items) {
+    if (POWER_AUTOMATE_URL === "PEGAR_URL_DEL_HTTP_TRIGGER_AQUI") {
+      mostrarStatus(statusId, "Configurá la URL del trigger en index.html antes de usar.", "warning");
+      return;
+    }
+
+    const btn = document.getElementById(btnId);
     btn.disabled = true;
     btn.classList.add("loading");
 
@@ -343,52 +508,60 @@
       const res = await fetch(POWER_AUTOMATE_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ wo, comentario })
+        body: JSON.stringify({ items })
       });
 
       if (res.ok) {
-        mostrarStatus(`Comentario enviado correctamente a WO ${wo}.`, "success");
-        agregarLog(wo, comentario, true);
-        document.getElementById("wo-input").value = "";
-        document.getElementById("comentario-input").value = "";
+        const n = items.length;
+        mostrarStatus(statusId,
+          `${n === 1 ? "Comentario enviado" : `${n} comentarios enviados`} correctamente.`, "success");
+        items.forEach(it => agregarLog(it.wo, it.comentario, true));
       } else {
-        mostrarStatus(`Error ${res.status} al enviar. Verificá el flujo en Power Automate.`, "error");
-        agregarLog(wo, comentario, false);
+        mostrarStatus(statusId, `Error ${res.status} al enviar. Verificá el flujo en Power Automate.`, "error");
+        items.forEach(it => agregarLog(it.wo, it.comentario, false));
       }
     } catch (e) {
-      mostrarStatus("No se pudo conectar con Power Automate. Revisá la URL.", "error");
-      agregarLog(wo, comentario, false);
+      mostrarStatus(statusId, "No se pudo conectar con Power Automate. Revisá la URL.", "error");
+      items.forEach(it => agregarLog(it.wo, it.comentario, false));
     }
 
     btn.disabled = false;
     btn.classList.remove("loading");
   }
 
-  function mostrarStatus(texto, tipo) {
-    const el = document.getElementById("status-msg");
+  // ── Helpers UI ────────────────────────────────────────────────────────────
+  function mostrarStatus(id, texto, tipo) {
+    const el = document.getElementById(id);
     el.className = "status " + tipo;
     el.style.display = "block";
     el.textContent = texto;
   }
 
   function agregarLog(wo, comentario, ok) {
-    const time = new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    const time  = new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
     const body  = document.getElementById("log-body");
     const empty = document.getElementById("log-empty");
     if (empty) empty.remove();
 
     const entry = document.createElement("div");
     entry.className = "log-entry " + (ok ? "ok" : "err");
+    const preview = comentario.length > 42 ? comentario.slice(0, 42) + "…" : comentario;
     entry.innerHTML =
       `<span class="time">${time}</span>` +
       `<span class="wo-tag">WO ${wo}</span>` +
-      `<span>${comentario.length > 38 ? comentario.slice(0, 38) + "…" : comentario}</span>`;
+      `<span>${preview}</span>`;
     body.prepend(entry);
   }
 
+  // ── Teclado ───────────────────────────────────────────────────────────────
   document.addEventListener("keydown", (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") enviarComentario();
+    if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === "Enter") enviarIndividual();
+    if ((e.ctrlKey || e.metaKey) &&  e.shiftKey && e.key === "Enter") enviarBatch();
   });
+
+  // ── Inicialización: una fila vacía en cada panel ──────────────────────────
+  agregarFilaIndividual();
+  agregarFilaBatch();
 </script>
 </body>
 </html>
