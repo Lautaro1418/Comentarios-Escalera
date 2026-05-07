@@ -514,10 +514,24 @@
       });
 
       if (res.ok) {
-        const n = items.length;
-        mostrarStatus(statusId,
-          `${n === 1 ? "Comentario enviado" : `${n} comentarios enviados`} correctamente.`, "success");
-        items.forEach(it => agregarLog(it.wo, it.comentario, true));
+        const data          = await res.json().catch(() => ({}));
+        const noEncontradas = Array.isArray(data.noEncontradas) ? data.noEncontradas : [];
+        const encontradas   = items.filter(it => !noEncontradas.includes(it.wo));
+
+        encontradas.forEach(it => agregarLog(it.wo, it.comentario, true));
+        noEncontradas.forEach(wo => agregarLog(wo, "— WO no encontrada en la tabla", false));
+
+        if (noEncontradas.length === 0) {
+          const n = items.length;
+          mostrarStatus(statusId,
+            `${n === 1 ? "Comentario enviado" : `${n} comentarios enviados`} correctamente.`, "success");
+        } else if (encontradas.length === 0) {
+          mostrarStatus(statusId,
+            `Ninguna WO encontrada: ${noEncontradas.join(", ")}`, "error");
+        } else {
+          mostrarStatus(statusId,
+            `${encontradas.length} OK · No encontradas: ${noEncontradas.join(", ")}`, "warning");
+        }
       } else {
         mostrarStatus(statusId, `Error ${res.status} al enviar. Verificá el flujo en Power Automate.`, "error");
         items.forEach(it => agregarLog(it.wo, it.comentario, false));
